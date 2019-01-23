@@ -1,0 +1,63 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)">
+    <mat-toolbar>Main Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item href="#">Home</a>
+      <a mat-list-item href="#">Products</a>
+      <a mat-list-item href="#">Contact Us</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Verkaufen und Kaufen</span>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <div class="grid-container">
+      <h1 class="mat-h1">Products</h1>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Search" value="" #searchQuery>
+        </mat-form-field>
+        <select name="state" [(ngModel)]="sortingOption" (change)="getSearchedProducts(searchQuery.value)">
+          <option disabled [ngValue]="Select">Sorting by Price</option>
+          <option *ngFor="let sortingOption of sortingOptions" [ngValue]="sortingOption">
+            {{ sortingOption.name }}
+          </option>
+        </select>
+        <button (click)="getSearchedProducts(searchQuery.value)" mat-button><i class="fas fa-search"></i></button>
+      </form>
+      <mat-grid-list cols="2" rowHeight="350px">
+        <mat-grid-tile *ngFor="let product of products" [colspan]="1" [rowspan]="1">
+          <mat-card class="dashboard-card">
+            <mat-card-header class="m-b-20">
+              <mat-card-title>
+                {{product.title}}
+                <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <button mat-menu-item>Expand</button>
+                  <button mat-menu-item>Remove</button>
+                </mat-menu>
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="dashboard-card-content">
+              <div class="card-parent">
+                <div class="card-left"><img [src]="'../../assets/img/'+product.imageName" height="215px" width="300px" alt=""></div>
+                <div class="card-right">
+                  <div class="m-b-20">{{product.price}}€</div>
+                  <div class="m-b-20">{{product.description}}</div>
+                  <div class="m-b-20">Rating : {{product.rating}}</div>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
