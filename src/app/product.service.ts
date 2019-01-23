@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class ProductService {
 
-  // baseUrl: String =  'ec2-34-226-143-226.compute-1.amazonaws.com:8080/';
-  baseUrl: String =  'http://localhost:8080/';
+  baseUrl: String =  'ec2-34-226-143-226.compute-1.amazonaws.com:8080/';
+  // baseUrl: String =  'http://localhost:8080/';
   constructor(private http: HttpClient) { }
 
   getAllProducts(): Observable<Product[]> {
